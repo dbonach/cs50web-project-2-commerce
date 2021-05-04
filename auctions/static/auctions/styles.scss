@@ -19,16 +19,15 @@ input[type="number"]::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type="text"]:focus,
-textarea:focus,
-input[type="number"] {
+input:focus,
+textarea:focus {
   box-shadow: 0 0 4px 0 rgb(0 0 0 / 40%);
 }
 
-textarea[name="description"],
-input[name="bid"] {
-  margin-top: 10px;
-}
+// textarea[name="description"],
+// input[name="bid"] {
+//   margin-top: 10px;
+// }
 
 .flex-container {
   display: flex;
@@ -36,6 +35,9 @@ input[name="bid"] {
   input[type="submit"] {
     width: fit-content;
     margin-top: 20px;
+  }
+  input, textarea {
+    margin-top: 10px;
   }
 }
 

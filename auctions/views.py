@@ -10,6 +10,7 @@ from .models import User
 title = ""
 description = ""
 start_bid = 0
+image_url = ""
 
 
 def index(request):
@@ -72,8 +73,6 @@ def new_listing(request):
         title = request.POST["title"]
         description = request.POST["description"]
         start_bid = request.POST["bid"]
-        print(title)
-        print(description)
-        print(start_bid)
+        image_url = request.POST["image"]
 
     return render(request, "auctions/new_listing.html")
