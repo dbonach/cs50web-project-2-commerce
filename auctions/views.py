@@ -6,6 +6,11 @@ from django.urls import reverse
 
 from .models import User
 
+# Dummy variables
+title = ""
+description = ""
+start_bid = 0
+
 
 def index(request):
     return render(request, "auctions/index.html")
@@ -61,3 +66,14 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/register.html")
+
+def new_listing(request):
+    if request.method == "POST":
+        title = request.POST["title"]
+        description = request.POST["description"]
+        start_bid = request.POST["bid"]
+        print(title)
+        print(description)
+        print(start_bid)
+
+    return render(request, "auctions/new_listing.html")
