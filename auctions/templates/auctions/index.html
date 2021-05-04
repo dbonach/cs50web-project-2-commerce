@@ -1,7 +1,18 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Active Listings</h2>
 
-    TODO
+<div class="wrapper">
+    <h3 class="heading">Active Listings</h3>
+    <div class="flex-container listings">
+        <div class="title">{{ title }}</div>
+        <div class="image-box">
+            <img src="{{ image_url }}" alt="" />
+        </div>
+
+        <div class="bid">Current bid: <span>${{ bid }}</span></div>
+        <div>Description: {{ description }}</div>
+    </div>
+</div>
+
 {% endblock %}

@@ -1,3 +1,5 @@
+$base-color: #c6538c;
+
 body {
   padding: 10px;
 }
@@ -50,4 +52,40 @@ textarea:focus {
   text-align: center;
   margin-bottom: 20px;
   font-family: monospace, Arial, sans-serif;
+}
+
+// CSS for index.html
+.listings {
+  align-items: center;
+  border-top: 1px solid #d2d2d2;
+  padding-top: 10px;
+  div {
+    margin-right: auto;
+    // margin-bottom: 10px;
+  }
+  .title {
+    font-weight: 600;
+    font-size: 1.25rem;
+  }
+  .bid {
+    span {
+      font-weight: 600;
+      font-size: 1.25rem;
+    }
+  }
+}
+
+.image-box {
+  width: 500px;
+  height: 500px;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    max-width: 500px;
+    max-height: 500px;
+  }
 }
