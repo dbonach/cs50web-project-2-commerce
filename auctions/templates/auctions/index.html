@@ -4,15 +4,19 @@
 
 <div class="wrapper">
     <h3 class="heading">Active Listings</h3>
+    {% for item in entry %}
     <div class="flex-container listings">
-        <div class="title">{{ title }}</div>
+        <div class="title">{{ item.title }}</div>
+
+
         <div class="image-box">
-            <img src="{{ image_url }}" alt="" />
+            <img src="{{ item.url }}" alt="" />
         </div>
 
-        <div class="bid">Current bid: <span>${{ bid }}</span></div>
-        <div>Description: {{ description }}</div>
+        <!-- <div class="bid">Current bid: <span>${{ bid }}</span></div> -->
+        <div>Description: {{ item.description }}</div>
     </div>
+    {% endfor %}
 </div>
 
 {% endblock %}
