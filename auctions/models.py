@@ -14,3 +14,11 @@ class Auction(models.Model):
 
     def __str__(self):
         return f"{self.title}" 
+
+class Bid(models.Model):
+    user =  models.ForeignKey(User, on_delete=models.CASCADE, related_name="bids")
+    bid_value =  models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    item = models.ForeignKey(Auction, on_delete=models.CASCADE, related_name="bids")
+
+    def __srt__(self):
+        return f"Item: {self.item}, value: {self.bid_value}, user: {self.user}"
