@@ -15,12 +15,17 @@ image_url = "https://cnet2.cbsistatic.com/img/51A28dscx0insHKgOHcMjqndvf8=/868x4
 
 
 def index(request):
+    # return render(request, "auctions/index.html", {
+    #     "title": title,
+    #     "description": description,
+    #     "bid": start_bid,
+    #     "image_url": image_url
+    # })
+    entry = Auction.objects.order_by('id').reverse()
     return render(request, "auctions/index.html", {
-        "title": title,
-        "description": description,
-        "bid": start_bid,
-        "image_url": image_url
+        "entry": entry
     })
+    # return HttpResponse("done")
 
 
 def login_view(request):
@@ -80,6 +85,9 @@ def new_listing(request):
         description = request.POST["description"]
         start_bid = request.POST["bid"]
         image_url = request.POST["image-url"]
+        print("#")
+        print(image_url)
+        print("#")
         user = User.objects.first()
         new_auction = Auction(title=title, description=description, url=image_url, user=user)
         new_auction.save()
