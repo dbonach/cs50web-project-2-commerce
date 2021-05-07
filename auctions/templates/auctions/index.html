@@ -13,7 +13,7 @@
             <img src="{{ item.url }}" alt="" />
         </div>
 
-        <!-- <div class="bid">Current bid: <span>${{ bid }}</span></div> -->
+        <div class="bid">Current bid: <span>${{ item.last_bid|floatformat }}</span></div>
         <div>Description: {{ item.description }}</div>
     </div>
     {% endfor %}
