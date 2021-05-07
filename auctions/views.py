@@ -89,10 +89,10 @@ def new_listing(request):
         print(image_url)
         print("#")
         user = User.objects.first()
-        new_auction = Auction(title=title, description=description, url=image_url, user=user)
+        new_auction = Auction(title=title, description=description, url=image_url, user=user, last_bid=start_bid)
         new_auction.save()
-        first_bid = Bid(user=user, bid_value=start_bid, item=new_auction)
-        first_bid.save()
+        bid = Bid(user=user, bid_value=start_bid, item=new_auction)
+        bid.save()
 
         return HttpResponseRedirect(reverse("index")) 
 
