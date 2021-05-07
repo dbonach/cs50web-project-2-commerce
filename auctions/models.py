@@ -20,5 +20,5 @@ class Bid(models.Model):
     bid_value =  models.DecimalField(max_digits=8, decimal_places=2, default=0)
     item = models.ForeignKey(Auction, on_delete=models.CASCADE, related_name="bids")
 
-    def __srt__(self):
-        return f"Item: {self.item}, value: {self.bid_value}, user: {self.user}"
+    def __str__(self):
+        return f"Item: {self.item}, Value: {self.bid_value}, User: {self.user}"

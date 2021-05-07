@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User, Auction
+from .models import User, Auction, Bid
 
 # Dummy variables
 title = "Dell inspiron 14"
@@ -91,6 +91,9 @@ def new_listing(request):
         user = User.objects.first()
         new_auction = Auction(title=title, description=description, url=image_url, user=user)
         new_auction.save()
+        first_bid = Bid(user=user, bid_value=start_bid, item=new_auction)
+        first_bid.save()
+
         return HttpResponseRedirect(reverse("index")) 
 
     return render(request, "auctions/new_listing.html")
