@@ -1,4 +1,5 @@
 $base-color: #c6538c;
+$photo-box: 300px;
 
 body {
   padding: 10px;
@@ -26,11 +27,6 @@ textarea:focus {
   box-shadow: 0 0 4px 0 rgb(0 0 0 / 40%);
 }
 
-// textarea[name="description"],
-// input[name="bid"] {
-//   margin-top: 10px;
-// }
-
 .flex-container {
   display: flex;
   flex-direction: column;
@@ -48,6 +44,11 @@ textarea:focus {
   margin: auto;
 }
 
+.wrapper-listing {
+  max-width: 800px;
+  margin: auto;
+}
+
 .heading {
   text-align: center;
   margin-bottom: 20px;
@@ -56,37 +57,46 @@ textarea:focus {
 
 // CSS for index.html
 .listings {
-  align-items: center;
+  display: flex;
   border-top: 1px solid #d2d2d2;
   padding-top: 10px;
   margin-top: 40px;
-  div {
-    margin-right: auto;
-    // margin-bottom: 10px;
+}
+
+.image-box {
+  display: flex;
+  flex: initial;
+  flex-shrink: 0;
+  width: $photo-box;
+  height: $photo-box;
+  border-radius: 10px;
+  background-color: #eee;
+  justify-content: center;
+  align-items: center;
+  img {
+    max-width: $photo-box;
+    max-height: $photo-box;
   }
+}
+
+.text {
+  padding-left: 10px;
+  min-width: calc(800px - #{$photo-box});
   .title {
     font-weight: 500;
     font-size: 1.25rem;
+    color: #44f;
   }
   .bid {
+    font-size: 1rem;
+    margin-bottom: 1rem;
     span {
       font-weight: 600;
       font-size: 1.25rem;
     }
   }
-}
+  .description {
+    font-size: 1rem;
 
-.image-box {
-  width: 500px;
-  height: 500px;
-  border-radius: 5px;
-  overflow: hidden;
-  background-color: #eee;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  img {
-    max-width: 500px;
-    max-height: 500px;
   }
 }

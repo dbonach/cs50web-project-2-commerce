@@ -2,19 +2,20 @@
 
 {% block body %}
 
-<div class="wrapper">
+<div class="wrapper-listing">
     <h3 class="heading">Active Listings</h3>
     {% for item in entry %}
-    <div class="flex-container listings">
-        <div class="title">{{ item.title }}</div>
-
-
+    <div class="listings">
         <div class="image-box">
             <img src="{{ item.url }}" alt="" />
         </div>
+        <div class="text">
+            <div class="title">{{ item.title }}</div>
 
-        <div class="bid">Current bid: <span>${{ item.last_bid|floatformat }}</span></div>
-        <div>Description: {{ item.description }}</div>
+            <div class="bid">Bid: <span>${{ item.last_bid|floatformat }}</span></div>
+            <div class="description">{{ item.description }}</div>
+        </div>
+
     </div>
     {% endfor %}
 </div>

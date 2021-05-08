@@ -6,27 +6,12 @@ from django.urls import reverse
 
 from .models import User, Auction, Bid
 
-# Dummy variables
-title = "Dell inspiron 14"
-description = "Aparelho usado"
-start_bid = 10
-image_url = "https://cnet2.cbsistatic.com/img/51A28dscx0insHKgOHcMjqndvf8=/868x488/2014/05/29/2d1aae8e-a172-4fe7-8f45-08dbbfe13d5a/dell-inspiron-14-7000-series-product-photos01.jpg"
-# image_url = "https://www.mtsystems.ca/wp-content/uploads/2017/11/inspiron-14-5000-series.jpg"
-
-
 def index(request):
-    # return render(request, "auctions/index.html", {
-    #     "title": title,
-    #     "description": description,
-    #     "bid": start_bid,
-    #     "image_url": image_url
-    # })
+
     entry = Auction.objects.order_by('id').reverse()
     return render(request, "auctions/index.html", {
         "entry": entry
     })
-    # return HttpResponse("done")
-
 
 def login_view(request):
     if request.method == "POST":
