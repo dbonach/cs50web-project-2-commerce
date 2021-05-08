@@ -4,12 +4,14 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User
-
+from .models import User, Auction, Bid
 
 def index(request):
-    return render(request, "auctions/index.html")
 
+    entry = Auction.objects.order_by('id').reverse()
+    return render(request, "auctions/index.html", {
+        "entry": entry
+    })
 
 def login_view(request):
     if request.method == "POST":
@@ -61,3 +63,19 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/register.html")
+
+def new_listing(request):
+    if request.method == "POST":
+        title = request.POST["title"]
+        description = request.POST["description"]
+        start_bid = request.POST["bid"]
+        image_url = request.POST["image-url"]
+        user = User.objects.first()
+        new_auction = Auction(title=title, description=description, url=image_url, user=user, last_bid=start_bid)
+        new_auction.save()
+        bid = Bid(user=user, bid_value=start_bid, item=new_auction)
+        bid.save()
+
+        return HttpResponseRedirect(reverse("index")) 
+
+    return render(request, "auctions/new_listing.html")

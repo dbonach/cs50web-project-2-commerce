@@ -1,3 +1,97 @@
 body {
-    padding: 10px;
+  padding: 10px;
 }
+
+textarea,
+input[type=text],
+input[type=number] {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #d2d2d2;
+  outline: none;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input:focus,
+textarea:focus {
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.4);
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+}
+.flex-container input[type=submit] {
+  width: fit-content;
+  margin-top: 20px;
+}
+.flex-container input, .flex-container textarea {
+  margin-top: 10px;
+}
+
+.wrapper {
+  max-width: 500px;
+  margin: auto;
+}
+
+.wrapper-listing {
+  max-width: 800px;
+  margin: auto;
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: monospace, Arial, sans-serif;
+}
+
+.listings {
+  display: flex;
+  border-top: 1px solid #d2d2d2;
+  padding-top: 10px;
+  margin-top: 40px;
+}
+
+.image-box {
+  display: flex;
+  flex: initial;
+  flex-shrink: 0;
+  width: 300px;
+  height: 300px;
+  border-radius: 10px;
+  background-color: #eee;
+  justify-content: center;
+  align-items: center;
+}
+.image-box img {
+  max-width: 300px;
+  max-height: 300px;
+}
+
+.text {
+  padding-left: 10px;
+  min-width: calc(800px - 300px);
+}
+.text .title {
+  font-weight: 500;
+  font-size: 1.25rem;
+  color: #44f;
+}
+.text .bid {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+.text .bid span {
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+.text .description {
+  font-size: 1rem;
+}
+
+/*# sourceMappingURL=styles.css.map */
