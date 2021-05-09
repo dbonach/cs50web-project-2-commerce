@@ -68,10 +68,11 @@ def new_listing(request):
     if request.method == "POST":
         title = request.POST["title"]
         description = request.POST["description"]
+        category = request.POST["category"]
         start_bid = request.POST["bid"]
         image_url = request.POST["image-url"]
         user = User.objects.first()
-        new_auction = Auction(title=title, description=description, url=image_url, user=user, last_bid=start_bid)
+        new_auction = Auction(title=title, description=description, category=category, url=image_url, user=user, last_bid=start_bid)
         new_auction.save()
         bid = Bid(user=user, bid_value=start_bid, item=new_auction)
         bid.save()
