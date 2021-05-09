@@ -80,6 +80,7 @@ textarea:focus {
   background-color: #eee;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 .image-box img {
   max-width: 300px;
