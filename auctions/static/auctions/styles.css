@@ -4,11 +4,24 @@ body {
 
 textarea,
 input[type=text],
-input[type=number] {
+input[type=number],
+input[list=category],
+select {
   padding: 5px 10px;
   border-radius: 5px;
   border: 1px solid #d2d2d2;
   outline: none;
+}
+
+select {
+  background-color: #fff;
+  color: #777;
+  padding-left: 6px;
+}
+select option {
+  background-color: #eee;
+  color: #000;
+  padding-left: 0;
 }
 
 input[type=number]::-webkit-outer-spin-button,
@@ -30,7 +43,7 @@ textarea:focus {
   width: fit-content;
   margin-top: 20px;
 }
-.flex-container input, .flex-container textarea {
+.flex-container input, .flex-container textarea, .flex-container select {
   margin-top: 10px;
 }
 
