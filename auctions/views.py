@@ -86,8 +86,7 @@ def item(request, name, id):
     item = Auction.objects.filter(id=id)
     print(name)
     if item:
-        item_name = item[0].title.split()
-        item_name = '-'.join(item_name)
+        item_name = '-'.join(item[0].title.split())
         if item_name == name:
             return render(request, "auctions/item.html", {
                 "item": item[0]
