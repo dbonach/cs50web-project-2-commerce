@@ -10,7 +10,8 @@ def index(request):
 
     entry = Auction.objects.order_by('id').reverse()
     return render(request, "auctions/index.html", {
-        "entry": entry
+        "entry": entry,
+        "nome": "teste"
     })
 
 def login_view(request):
@@ -80,3 +81,16 @@ def new_listing(request):
         return HttpResponseRedirect(reverse("index")) 
 
     return render(request, "auctions/new_listing.html")
+
+def item(request, name, id):
+    item = Auction.objects.filter(id=id)
+    print(name)
+    if item:
+        item_name = item[0].title.split()
+        item_name = '-'.join(item_name)
+        if item_name == name:
+            return render(request, "auctions/item.html", {
+                "item": item[0]
+            })
+  
+    return HttpResponse("There's no such item.")
