@@ -1,0 +1,20 @@
+{% extends "auctions/layout.html" %}
+{% block title %}Auctions - New Listing{% endblock %}
+
+{% block body %}
+<div class="wrapper-listing">
+  <div class="listings no-border">
+    <div class="image-box img-large">
+      <img src="{{ item.url }}" alt="" />
+    </div>
+    <div class="text">
+      <div class="title dark-text">{{ item.title }}</div>
+
+      <div class="bid">Bid: <span>${{ item.last_bid|floatformat }}</span></div>
+    </div>
+  </div>
+  <div class="wrapper-info">
+    <div class="description">{{ item.description }}</div>
+  </div>
+</div>
+{% endblock %}

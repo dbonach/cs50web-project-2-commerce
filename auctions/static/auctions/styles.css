@@ -108,4 +108,31 @@ textarea:focus {
   font-size: 1rem;
 }
 
+.no-border {
+  border: none;
+}
+
+.img-large {
+  width: 500px;
+  height: 500px;
+}
+.img-large img {
+  max-width: 500px;
+  max-height: 500px;
+}
+
+.text {
+  min-width: 300px;
+}
+.text .dark-text {
+  color: #333;
+}
+
+.wrapper-info {
+  margin-top: 10px;
+}
+.wrapper-info .description {
+  color: #444;
+}
+
 /*# sourceMappingURL=styles.css.map */

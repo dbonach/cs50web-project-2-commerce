@@ -114,3 +114,32 @@ textarea:focus {
 
   }
 }
+
+// CSS for individual listing
+.no-border {
+  border: none;
+}
+
+.img-large {
+  width: 500px;
+  height: 500px;
+  img {
+    max-width: 500px;
+    max-height: 500px;
+  }
+}
+
+.text {
+  min-width: 300px;
+
+  .dark-text {
+    color:#333;
+  }
+}
+
+.wrapper-info {
+  margin-top: 10px;
+  .description {
+    color: #444;
+  }
+}
