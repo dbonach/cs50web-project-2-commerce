@@ -11,6 +11,11 @@
       <div class="title dark-text">{{ item.title }}</div>
 
       <div class="bid">Bid: <span>${{ item.last_bid|floatformat }}</span></div>
+      <form action="" method="POST">
+        {% csrf_token %}
+        <input name="user" id="" value="{{ user.id }}" hidden>
+        <button type="button" class="btn btn-warning" onClick={submit()}>Add to WatchList</button>
+      </form>
     </div>
   </div>
   <div class="wrapper-info">
