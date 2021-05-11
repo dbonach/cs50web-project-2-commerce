@@ -11,11 +11,19 @@
       <div class="title dark-text">{{ item.title }}</div>
 
       <div class="bid">Bid: <span>${{ item.last_bid|floatformat }}</span></div>
+      {% if user.is_authenticated %}
       <form action="" method="POST">
         {% csrf_token %}
         <input name="user" id="" value="{{ user.id }}" hidden>
+        {% if watchlist %}
+        <input name="remove" id="" value="true" hidden>
+        <button type="button" class="btn btn-dark" onClick={submit()}>Remove from WatchList</button>
+        {% else %}
+        <input name="remove" id="" value="" hidden>
         <button type="button" class="btn btn-warning" onClick={submit()}>Add to WatchList</button>
+        {% endif %}
       </form>
+      {% endif %}
     </div>
   </div>
   <div class="wrapper-info">
