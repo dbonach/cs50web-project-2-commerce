@@ -12,9 +12,10 @@ class Auction(models.Model):
     category = models.CharField(max_length=20, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="items")
     last_bid = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    users_watchlist = models.ManyToManyField(User, related_name="watchlist")
 
     def __str__(self):
-        return f"{self.title}" 
+        return f"Item: {self.title}, Users: {self.users_watchlist.all()}"
 
 class Bid(models.Model):
     user =  models.ForeignKey(User, on_delete=models.CASCADE, related_name="bids")
