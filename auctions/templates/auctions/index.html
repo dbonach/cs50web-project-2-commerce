@@ -6,11 +6,15 @@
     <h3 class="heading">Active Listings</h3>
     {% for item in entry %}
     <div class="listings">
-        <div class="image-box">
-            <img src="{{ item.url }}" alt="" />
-        </div>
+        <a href="{% url 'item' item.title.split|join:'-' item.id %}">
+            <div class="image-box">
+                <img src="{{ item.url }}" alt="" />
+            </div>
+        </a>
         <div class="text">
-            <div class="title">{{ item.title }}</div>
+            <a href="{% url 'item' item.title.split|join:'-' item.id %}">
+                <div class="title">{{ item.title }}</div>
+            </a>
 
             <div class="bid">Bid: <span>${{ item.last_bid|floatformat }}</span></div>
             <div class="description">{{ item.description }}</div>

@@ -4,11 +4,24 @@ body {
 
 textarea,
 input[type=text],
-input[type=number] {
+input[type=number],
+input[list=category],
+select {
   padding: 5px 10px;
   border-radius: 5px;
   border: 1px solid #d2d2d2;
   outline: none;
+}
+
+select {
+  background-color: #fff;
+  color: #777;
+  padding-left: 6px;
+}
+select option {
+  background-color: #eee;
+  color: #000;
+  padding-left: 0;
 }
 
 input[type=number]::-webkit-outer-spin-button,
@@ -30,7 +43,7 @@ textarea:focus {
   width: fit-content;
   margin-top: 20px;
 }
-.flex-container input, .flex-container textarea {
+.flex-container input, .flex-container textarea, .flex-container select {
   margin-top: 10px;
 }
 
@@ -67,6 +80,7 @@ textarea:focus {
   background-color: #eee;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 .image-box img {
   max-width: 300px;
@@ -92,6 +106,38 @@ textarea:focus {
 }
 .text .description {
   font-size: 1rem;
+}
+
+.no-border {
+  border: none;
+}
+
+.img-large {
+  width: 500px;
+  height: 500px;
+}
+.img-large img {
+  max-width: 500px;
+  max-height: 500px;
+}
+
+.text {
+  min-width: 300px;
+}
+.text .dark-text {
+  color: #333;
+}
+.text .btn {
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.wrapper-info {
+  margin-top: 10px;
+}
+.wrapper-info .description {
+  color: #444;
 }
 
 /*# sourceMappingURL=styles.css.map */
