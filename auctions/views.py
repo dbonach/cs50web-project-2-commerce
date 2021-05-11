@@ -82,14 +82,29 @@ def new_listing(request):
 
     return render(request, "auctions/new_listing.html")
 
-def item(request, name, id):
-    item = Auction.objects.filter(id=id)
-    print(name)
+def item(request, name, item_id):
+    item = verify_url(request, name, item_id)
+    if item:
+        user_id = request.user.id
+
+        if request.method == 'POST':
+            user = User.objects.get(pk=user_id)
+            if request.POST['remove']:
+                item.users_watchlist.remove(user)
+            else:
+                item.users_watchlist.add(user)
+
+        return render(request, "auctions/item.html", {
+            "item": item,
+            "watchlist": item.users_watchlist.filter(pk=user_id)
+        })
+  
+    return HttpResponse("There's no such item.")
+
+def verify_url(request, name, item_id):
+    item = Auction.objects.filter(id=item_id)
     if item:
         item_name = '-'.join(item[0].title.split())
         if item_name == name:
-            return render(request, "auctions/item.html", {
-                "item": item[0]
-            })
-  
-    return HttpResponse("There's no such item.")
+            return item[0]
+    return False
