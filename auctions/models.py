@@ -23,4 +23,4 @@ class Bid(models.Model):
     item = models.ForeignKey(Auction, on_delete=models.CASCADE, related_name="bids")
 
     def __str__(self):
-        return f"Item: {self.item}, Value: {self.bid_value}, User: {self.user}"
+        return f"Item: {self.item.title}, Value: {self.bid_value}, User: {self.user}"
