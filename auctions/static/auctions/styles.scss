@@ -149,3 +149,12 @@ textarea:focus {
     color: #444;
   }
 }
+
+.details {
+  font-family: cursive;
+  border: 1px solid rgb(143, 143, 143);
+  border-radius: 4px;
+  margin-top: 1rem;
+  padding: 5px 10px;
+  width: fit-content;
+}

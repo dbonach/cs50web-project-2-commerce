@@ -140,4 +140,13 @@ textarea:focus {
   color: #444;
 }
 
+.details {
+  font-family: cursive;
+  border: 1px solid #8f8f8f;
+  border-radius: 4px;
+  margin-top: 1rem;
+  padding: 5px 10px;
+  width: fit-content;
+}
+
 /*# sourceMappingURL=styles.css.map */
