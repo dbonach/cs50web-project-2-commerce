@@ -13,7 +13,7 @@
       <div class="title dark-text">{{ item.title }}</div>
       <div class="bid">Bid: <span>${{ item.last_bid|floatformat }}</span></div>
 
-      {% if user.is_authenticated %}
+      {% if user.is_authenticated and user.id != item.user.id %}
 
       {% if invalid %}
       <div class="alert alert-danger mt-2 mb-2 p-2" role="alert">
