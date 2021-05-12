@@ -14,9 +14,17 @@
       <div class="bid">Bid: <span>${{ item.last_bid|floatformat }}</span></div>
 
       {% if user.is_authenticated %}
+
+      {% if invalid %}
+      <div class="alert alert-danger mt-2 mb-2 p-2" role="alert">
+        Invalid Bid!
+      </div>
+      {% endif %}
+
       <form action="" method="POST">
         {% csrf_token %}
         <div class="bid-box mt-1">
+          <input type="text" name="bid" value="true" hidden>
           <input type="text" name="value" placeholder="Enter a bid" pattern="[1-9][0-9]*" required>
           <!-- </br> -->
           <button type="submit" class="btn btn-danger ml-2">New Bid</button>
@@ -26,6 +34,7 @@
       <form action="" method="POST">
         {% csrf_token %}
         <input name="user" id="" value="{{ user.id }}" hidden>
+        <input type="text" name="bid" value="" hidden>
         {% if watchlist %}
         <input name="remove" id="" value="true" hidden>
         <button type="button" class="btn btn-dark mt-5" onClick={submit()}>Remove from WatchList</button>
