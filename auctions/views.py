@@ -118,8 +118,14 @@ def verify_url(request, name, item_id):
 
 def verify_bid(request, item, user_id):
     if int(request.POST['value']) > int(item.last_bid):
+
         item.last_bid = int(request.POST['value'])
         item.save()
+
+        user = User.objects.get(pk=user_id)
+        new_bid = Bid(user=user, bid_value=int(request.POST['value']), item=item)
+        new_bid.save()
+
         return False
     else:
         return True
