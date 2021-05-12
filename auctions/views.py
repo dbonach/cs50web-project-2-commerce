@@ -84,11 +84,17 @@ def new_listing(request):
 
 def item(request, name, item_id):
     item = verify_url(request, name, item_id)
+    invalid = False
+
     if item:
         user_id = request.user.id
 
-        if request.method == 'POST':
+        if request.method == 'POST' and request.POST['bid']:
+            invalid = verify_bid(request, item, user_id)
+
+        elif request.method == 'POST':
             user = User.objects.get(pk=user_id)
+
             if request.POST['remove']:
                 item.users_watchlist.remove(user)
             else:
@@ -96,7 +102,8 @@ def item(request, name, item_id):
 
         return render(request, "auctions/item.html", {
             "item": item,
-            "watchlist": item.users_watchlist.filter(pk=user_id)
+            "watchlist": item.users_watchlist.filter(pk=user_id),
+            "invalid": invalid
         })
   
     return HttpResponse("There's no such item.")
@@ -108,3 +115,11 @@ def verify_url(request, name, item_id):
         if item_name == name:
             return item[0]
     return False
+
+def verify_bid(request, item, user_id):
+    if int(request.POST['value']) > int(item.last_bid):
+        item.last_bid = int(request.POST['value'])
+        item.save()
+        return False
+    else:
+        return True
