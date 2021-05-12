@@ -33,15 +33,22 @@
 
       <form action="" method="POST">
         {% csrf_token %}
-        <input name="user" id="" value="{{ user.id }}" hidden>
+        <input name="user" value="{{ user.id }}" hidden>
         <input type="text" name="bid" value="" hidden>
         {% if watchlist %}
-        <input name="remove" id="" value="true" hidden>
+        <input name="remove" value="true" hidden>
         <button type="button" class="btn btn-dark mt-5" onClick={submit()}>Remove from WatchList</button>
         {% else %}
-        <input name="remove" id="" value="" hidden>
+        <input name="remove" value="" hidden>
         <button type="submit" class="btn btn-warning mt-5">Add to WatchList</button>
         {% endif %}
+      </form>
+      {% endif %}
+
+      {% if user.is_authenticated and user.id == item.user.id %}
+      <form action="" method="POST">
+        <input name="finished" value="true" hidden>
+        <button type="submit" class="btn btn-success mt-2">Finish Auction</button>
       </form>
       {% endif %}
 
