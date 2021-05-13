@@ -98,14 +98,14 @@ def item(request, name, item_id):
 
     def verify_post(request, item):
 
-        if request.method == 'POST' and request.POST['bid']:
+        if request.POST['q'] == 'bid':
             verify_bid(request, item)
 
-        elif request.method == 'POST' and request.POST['finished']:
+        elif request.POST['q'] == 'finished':
             item.winner = Auction.objects.get(pk=item.id).bids.order_by('bid_value').last().user
             item.save()
 
-        elif request.method == 'POST':
+        elif request.POST['q'] == 'remove':
             user = User.objects.get(pk=request.user.id)
 
             if request.POST['remove']:
@@ -115,7 +115,7 @@ def item(request, name, item_id):
 
     def verify_bid(request, item):
         nonlocal invalid_bid
-        
+
         if int(request.POST['value']) > int(item.last_bid):
 
             item.last_bid = int(request.POST['value'])
@@ -133,7 +133,8 @@ def item(request, name, item_id):
     item = verify_url(request, name, item_id)
 
     if item:
-        verify_post(request, item)
+        if request.method == 'POST':
+            verify_post(request, item)
 
         return render(request, "auctions/item.html", {
             "item": item,

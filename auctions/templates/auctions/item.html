@@ -38,7 +38,7 @@
       <form action="" method="POST">
         {% csrf_token %}
         <div class="bid-box mt-1">
-          <input type="text" name="bid" value="true" hidden>
+          <input type="text" name="q" value="bid" hidden>
           <input type="text" name="value" placeholder="Enter a bid" pattern="[1-9][0-9]*" required>
           <button type="submit" class="btn btn-danger ml-2">New Bid</button>
         </div>
@@ -46,8 +46,7 @@
 
       <form action="" method="POST">
         {% csrf_token %}
-        <input name="user" value="{{ user.id }}" hidden>
-        <input type="text" name="bid" value="" hidden>
+        <input name="q" value="remove" hidden>
         {% if watchlist %}
         <input name="remove" value="true" hidden>
         <button type="submit" class="btn btn-dark mt-5">Remove from WatchList</button>
@@ -61,8 +60,7 @@
       {% if not item.winner and user.is_authenticated and user.id == item.user.id %}
       <form action="" method="POST">
         {% csrf_token %}
-        <input type="text" name="finished" value="true" hidden>
-        <input type="text" name="bid" value="" hidden>
+        <input type="text" name="q" value="finished" hidden>
         <button type="submit" class="btn btn-success mt-2">Finish Auction</button>
       </form>
       {% endif %}
