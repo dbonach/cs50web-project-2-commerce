@@ -6,14 +6,28 @@
   <div class="listings no-border">
 
     <div class="image-box img-large">
-      <img src="{{ item.url }}" alt="Auction item" />
+      <img src="{{ item.url }}" alt="" {% if item.winner %} style="filter: grayscale(100%);" {% endif %} />
     </div>
 
     <div class="text">
       <div class="title dark-text">{{ item.title }}</div>
-      <div class="bid">Bid: <span>${{ item.last_bid|floatformat }}</span></div>
+      <div class="bid">
 
-      {% if user.is_authenticated and user.id != item.user.id %}
+        {% if item.winner %}
+        <s>Bid: <span>${{ item.last_bid|floatformat }}</span></s>
+        {% else %}
+        Bid: <span>${{ item.last_bid|floatformat }}</span>
+        {% endif %}
+
+      </div>
+
+      {% if user.is_authenticated and item.winner.id == user.id %}
+      <h4 class="font-weight-bold mt-2 purple">You won this item!</h4>
+      {% elif item.winner %}
+      <h4 class="font-weight-bold mt-2 purple">Sold Item!</h4>
+      {% endif %}
+
+      {% if not item.winner and user.is_authenticated and user.id != item.user.id %}
 
       {% if invalid %}
       <div class="alert alert-danger mt-2 mb-2 p-2" role="alert">
@@ -26,7 +40,6 @@
         <div class="bid-box mt-1">
           <input type="text" name="bid" value="true" hidden>
           <input type="text" name="value" placeholder="Enter a bid" pattern="[1-9][0-9]*" required>
-          <!-- </br> -->
           <button type="submit" class="btn btn-danger ml-2">New Bid</button>
         </div>
       </form>
@@ -45,9 +58,11 @@
       </form>
       {% endif %}
 
-      {% if user.is_authenticated and user.id == item.user.id %}
+      {% if not item.winner and user.is_authenticated and user.id == item.user.id %}
       <form action="" method="POST">
-        <input name="finished" value="true" hidden>
+        {% csrf_token %}
+        <input type="text" name="finished" value="true" hidden>
+        <input type="text" name="bid" value="" hidden>
         <button type="submit" class="btn btn-success mt-2">Finish Auction</button>
       </form>
       {% endif %}
