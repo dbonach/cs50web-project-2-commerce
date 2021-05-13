@@ -82,50 +82,59 @@ def new_listing(request):
 
     return render(request, "auctions/new_listing.html")
 
+# Handle individual item page
 def item(request, name, item_id):
-    item = verify_url(request, name, item_id)
-    invalid = False
 
-    if item:
-        user_id = request.user.id
+    invalid_bid = False
+
+    def verify_url(request, name, item_id):
+
+        item = Auction.objects.filter(id=item_id)
+        if item:
+            item_name = '-'.join(item[0].title.split())
+            if item_name == name:
+                return item[0]
+        return False
+
+    def verify_post(request, item):
 
         if request.method == 'POST' and request.POST['bid']:
-            invalid = verify_bid(request, item, user_id)
+            verify_bid(request, item)
 
         elif request.method == 'POST':
-            user = User.objects.get(pk=user_id)
+            user = User.objects.get(pk=request.user.id)
 
             if request.POST['remove']:
                 item.users_watchlist.remove(user)
             else:
                 item.users_watchlist.add(user)
 
+    def verify_bid(request, item):
+
+        nonlocal invalid_bid
+        if int(request.POST['value']) > int(item.last_bid):
+
+            item.last_bid = int(request.POST['value'])
+            item.save()
+
+            user = User.objects.get(pk=request.user.id)
+            new_bid = Bid(user=user, bid_value=int(request.POST['value']), item=item)
+            new_bid.save()
+
+            invalid_bid = False
+
+        else:
+            invalid_bid = True
+
+    item = verify_url(request, name, item_id)
+
+    if item:
+        verify_post(request, item)
+
         return render(request, "auctions/item.html", {
             "item": item,
-            "watchlist": item.users_watchlist.filter(pk=user_id),
-            "invalid": invalid
+            "watchlist": item.users_watchlist.filter(pk=request.user.id),
+            "invalid": invalid_bid
         })
   
     return HttpResponse("There's no such item.")
-
-def verify_url(request, name, item_id):
-    item = Auction.objects.filter(id=item_id)
-    if item:
-        item_name = '-'.join(item[0].title.split())
-        if item_name == name:
-            return item[0]
-    return False
-
-def verify_bid(request, item, user_id):
-    if int(request.POST['value']) > int(item.last_bid):
-
-        item.last_bid = int(request.POST['value'])
-        item.save()
-
-        user = User.objects.get(pk=user_id)
-        new_bid = Bid(user=user, bid_value=int(request.POST['value']), item=item)
-        new_bid.save()
-
-        return False
-    else:
-        return True
