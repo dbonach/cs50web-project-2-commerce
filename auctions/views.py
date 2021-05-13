@@ -101,6 +101,10 @@ def item(request, name, item_id):
         if request.method == 'POST' and request.POST['bid']:
             verify_bid(request, item)
 
+        elif request.method == 'POST' and request.POST['finished']:
+            item.winner = Auction.objects.get(pk=item.id).bids.order_by('bid_value').last().user
+            item.save()
+
         elif request.method == 'POST':
             user = User.objects.get(pk=request.user.id)
 
@@ -110,8 +114,8 @@ def item(request, name, item_id):
                 item.users_watchlist.add(user)
 
     def verify_bid(request, item):
-
         nonlocal invalid_bid
+        
         if int(request.POST['value']) > int(item.last_bid):
 
             item.last_bid = int(request.POST['value'])
