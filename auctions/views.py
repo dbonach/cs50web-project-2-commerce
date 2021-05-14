@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User, Auction, Bid
+from .models import User, Auction, Bid, Comment
 
 def index(request):
 
@@ -112,6 +112,12 @@ def item(request, name, item_id):
                 item.users_watchlist.remove(user)
             else:
                 item.users_watchlist.add(user)
+        
+        elif request.POST['q'] == 'comment':
+            user = User.objects.get(pk=request.user.id)
+            new_comment = Comment(user=user, text=request.POST['comment'])
+            new_comment.save()
+            item.comments.add(new_comment)
 
     def verify_bid(request, item):
         nonlocal invalid_bid
@@ -139,7 +145,8 @@ def item(request, name, item_id):
         return render(request, "auctions/item.html", {
             "item": item,
             "watchlist": item.users_watchlist.filter(pk=request.user.id),
-            "invalid": invalid_bid
+            "invalid": invalid_bid,
+            "comments": item.comments.all()
         })
   
     return HttpResponse("There's no such item.")
