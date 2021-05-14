@@ -133,7 +133,7 @@ textarea:focus {
 }
 
 .wrapper-info {
-  margin-top: 10px;
+  padding-top: 10px;
 }
 .wrapper-info .description {
   color: #444;
@@ -159,6 +159,58 @@ textarea:focus {
 
 .purple {
   color: darkviolet;
+}
+
+.wrapper-info-com {
+  width: 500px;
+}
+
+.wrapper-comments {
+  padding-top: 5px;
+}
+.wrapper-comments #comment-head {
+  font-size: 1.5rem;
+  color: #000;
+  margin-top: 1rem;
+  border-bottom: 1px solid #d2d2d2;
+  margin-bottom: 0.75rem;
+}
+.wrapper-comments .user {
+  font-weight: bold;
+  font-size: 0.75rem;
+  color: #55f;
+  font-family: opensans, helvetica, arial, sans-serif;
+  margin-bottom: 0.5rem;
+}
+.wrapper-comments .bullet {
+  color: #c2c6cc;
+}
+.wrapper-comments textarea {
+  width: 100%;
+  resize: vertical;
+}
+.wrapper-comments input {
+  margin-bottom: 1.25rem;
+  font-weight: bold;
+  font-size: 0.75rem;
+  line-height: 16px;
+  /* background-color: #66f; */
+  border: 1px solid black;
+  /* color: white; */
+  border-radius: 4px;
+}
+
+.comment {
+  font-family: Helvetica, Arial, Sans-serif;
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.textarea {
+  border: 1px solid #2a2e2e;
+  padding: 2px 6px;
+  border-radius: 3px;
+  line-height: 20px;
 }
 
 /*# sourceMappingURL=styles.css.map */

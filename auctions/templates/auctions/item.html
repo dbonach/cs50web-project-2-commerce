@@ -73,8 +73,25 @@
     </div>
   </div>
 
-  <div class="wrapper-info">
-    <div class="description">{{ item.description }}</div>
+  <div class="wrapper-info-com">
+    <div class="wrapper-info">
+      <div class="description">{{ item.description }}</div>
+    </div>
+
+    <div class="wrapper-comments">
+      <p id="comment-head">Comments</p>
+      <form action="" method="POST">
+        {% csrf_token %}
+        <textarea name="comment" id="" rows="3" placeholder="Add a comment" id="txt"></textarea>
+        <input type="submit" name="q" value="comment">
+      </form>
+      <p class="user">{{ user.username }}
+        <span class="bullet">• Time ago</span>
+      </p>
+      <p class="comment">Este eh um comentario sobre o produto, eu adorei ele
+        , estava do jeito que eu queria, ate recomendei para meus amigos
+      </p>
+    </div>
   </div>
 
 </div>
