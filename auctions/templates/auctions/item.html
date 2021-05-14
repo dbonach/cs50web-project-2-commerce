@@ -80,11 +80,13 @@
 
     <div class="wrapper-comments">
       <p id="comment-head">Comments</p>
+      {% if user.is_authenticated %}
       <form action="" method="POST">
         {% csrf_token %}
         <textarea name="comment" id="" rows="3" placeholder="Add a comment" id="txt"></textarea>
         <input type="submit" name="q" value="comment">
       </form>
+      {% endif %}
 
       {% if comments %}
       {% for comment in comments %}
