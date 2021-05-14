@@ -14,6 +14,7 @@ class Auction(models.Model):
     last_bid = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     users_watchlist = models.ManyToManyField(User, related_name="watchlist")
     winner = models.ForeignKey(User, on_delete=models.SET(user), default=None, null=True, related_name="acquired_item")
+    comments = models.ManyToManyField('Comment', related_name="item")
 
     def __str__(self):
         return f"Item: {self.title}"
