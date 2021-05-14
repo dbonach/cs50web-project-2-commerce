@@ -95,13 +95,17 @@ textarea:focus {
   font-weight: 500;
   font-size: 1.25rem;
   color: #44f;
+  margin-bottom: 1.5rem;
 }
 .text .bid {
   font-size: 1rem;
+  font-family: monospace;
+  color: #777;
 }
 .text .bid span {
-  font-weight: 600;
+  color: #000;
   font-size: 1.25rem;
+  padding-left: 0.25rem;
 }
 .text .description {
   font-size: 1rem;

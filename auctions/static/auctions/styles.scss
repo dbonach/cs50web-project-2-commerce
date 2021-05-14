@@ -100,12 +100,17 @@ textarea:focus {
     font-weight: 500;
     font-size: 1.25rem;
     color: #44f;
+    margin-bottom: 1.5rem;
   }
   .bid {
     font-size: 1rem;
+    font-family: monospace;
+    color: #777;
     span {
-      font-weight: 600;
+      color: #000;
+      // font-weight: 600;
       font-size: 1.25rem;
+      padding-left: 0.25rem;
     }
   }
   .description {
