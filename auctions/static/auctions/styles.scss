@@ -100,13 +100,17 @@ textarea:focus {
     font-weight: 500;
     font-size: 1.25rem;
     color: #44f;
+    margin-bottom: 1.5rem;
   }
   .bid {
     font-size: 1rem;
-    margin-bottom: 1rem;
+    font-family: monospace;
+    color: #777;
     span {
-      font-weight: 600;
+      color: #000;
+      // font-weight: 600;
       font-size: 1.25rem;
+      padding-left: 0.25rem;
     }
   }
   .description {
@@ -144,8 +148,94 @@ textarea:focus {
 }
 
 .wrapper-info {
-  margin-top: 10px;
+  padding-top: 10px;
   .description {
     color: #444;
   }
+}
+
+.details {
+  font-family: cursive;
+  border: 1px solid rgb(143, 143, 143);
+  border-radius: 4px;
+  margin-top: 1rem;
+  padding: 5px 10px;
+  width: fit-content;
+}
+
+.bid-box {
+  display: flex;
+  align-items: center;
+  input {
+    padding: 2px 10px;
+    width: 100px;
+  }
+}
+
+.purple {
+  color: darkviolet;
+}
+
+.wrapper-info-com {
+  width: 500px;
+}
+
+#description {
+  font-family: monospace;
+  margin-bottom: 0;
+  font-size: 0.75rem;
+  color: #777;
+}
+
+.wrapper-comments {
+  padding-top: 5px;
+  // border-top: 1px solid #d2d2d2;
+  #comment-head {
+    font-size: 1.5rem;
+    color: #000;
+    margin-top: 2rem;
+    padding-left: 0.5rem;
+    border-top: 1px solid #d2d2d2;
+    margin-bottom: 0.5rem;
+  }
+  .user {
+    font-weight: bold;
+    font-size: 0.75rem;
+    color: #55f;
+    font-family: opensans, helvetica, arial, sans-serif;
+    margin-bottom: 0;
+  }
+  .bullet {
+    color: #c2c6cc;
+  }
+  textarea {
+    width: 100%;
+    resize: vertical;
+    // overflow: auto;
+    // overflow-wrap: break-word;
+    // max-height: 300px;
+  }
+  input {
+    margin-bottom: 1.25rem;
+    font-weight: bold;
+    font-size: 0.75rem;
+    line-height: 16px;
+    /* background-color: #66f; */
+    border: 1px solid black;
+    /* color: white; */
+    border-radius: 4px;
+  }
+}
+
+.comment {
+  font-family: Helvetica, Arial, Sans-serif;
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.textarea {
+  border: 1px solid #2a2e2e;
+  padding: 2px 6px;
+  border-radius: 3px;
+  line-height: 20px;
 }

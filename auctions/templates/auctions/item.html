@@ -4,30 +4,101 @@
 {% block body %}
 <div class="wrapper-listing">
   <div class="listings no-border">
+
     <div class="image-box img-large">
-      <img src="{{ item.url }}" alt="" />
+      <img src="{{ item.url }}" alt="" {% if item.winner %} style="filter: grayscale(100%);" {% endif %} />
     </div>
+
     <div class="text">
       <div class="title dark-text">{{ item.title }}</div>
+      <div class="bid">
 
-      <div class="bid">Bid: <span>${{ item.last_bid|floatformat }}</span></div>
-      {% if user.is_authenticated %}
+        {% if item.winner %}
+        <s>Bid:<span>${{ item.last_bid|floatformat }}</span></s>
+        {% else %}
+        Bid:<span>${{ item.last_bid|floatformat }}</span>
+        {% endif %}
+
+      </div>
+
+      {% if user.is_authenticated and item.winner.id == user.id %}
+      <h4 class="font-weight-bold mt-2 purple">You won this item!</h4>
+      {% elif item.winner %}
+      <h4 class="font-weight-bold mt-2 purple">Sold Item!</h4>
+      {% endif %}
+
+      {% if not item.winner and user.is_authenticated and user.id != item.user.id %}
+
+      {% if invalid %}
+      <div class="alert alert-danger mt-2 mb-2 p-2" role="alert">
+        Invalid Bid!
+      </div>
+      {% endif %}
+
       <form action="" method="POST">
         {% csrf_token %}
-        <input name="user" id="" value="{{ user.id }}" hidden>
+        <div class="bid-box mt-1">
+          <input type="text" name="q" value="bid" hidden>
+          <input type="text" name="value" placeholder="Enter a bid" pattern="[1-9][0-9]*" required>
+          <button type="submit" class="btn btn-danger ml-2">New Bid</button>
+        </div>
+      </form>
+
+      <form action="" method="POST">
+        {% csrf_token %}
+        <input name="q" value="remove" hidden>
         {% if watchlist %}
-        <input name="remove" id="" value="true" hidden>
-        <button type="button" class="btn btn-dark" onClick={submit()}>Remove from WatchList</button>
+        <input name="remove" value="true" hidden>
+        <button type="submit" class="btn btn-dark mt-5">Remove from WatchList</button>
         {% else %}
-        <input name="remove" id="" value="" hidden>
-        <button type="button" class="btn btn-warning" onClick={submit()}>Add to WatchList</button>
+        <input name="remove" value="" hidden>
+        <button type="submit" class="btn btn-warning mt-5">Add to WatchList</button>
         {% endif %}
       </form>
       {% endif %}
+
+      {% if not item.winner and user.is_authenticated and user.id == item.user.id %}
+      <form action="" method="POST">
+        {% csrf_token %}
+        <input type="text" name="q" value="finished" hidden>
+        <button type="submit" class="btn btn-success mt-2">Finish Auction</button>
+      </form>
+      {% endif %}
+
+      <div class="details">
+        Created by <em>{{ item.user.username}}</em></br>
+        Category: <em>{{ item.category }}</em>
+      </div>
+
     </div>
   </div>
-  <div class="wrapper-info">
-    <div class="description">{{ item.description }}</div>
+
+  <div class="wrapper-info-com">
+    <div class="wrapper-info">
+      <p id="description">Description:</p>
+      <div class="description">{{ item.description }}</div>
+    </div>
+
+    <div class="wrapper-comments">
+      <p id="comment-head">Comments</p>
+      {% if user.is_authenticated %}
+      <form action="" method="POST">
+        {% csrf_token %}
+        <textarea name="comment" id="" rows="3" placeholder="Add a comment" id="txt"></textarea>
+        <input type="submit" name="q" value="comment">
+      </form>
+      {% endif %}
+
+      {% if comments %}
+      {% for comment in comments %}
+      <p class="user">{{ comment.user }}
+        <span class="bullet">• {{ comment.date|timesince }} ago</span>
+      </p>
+      <p class="comment">{{ comment.text }}</p>
+      {% endfor %}
+      {% endif %}
+    </div>
   </div>
+
 </div>
 {% endblock %}

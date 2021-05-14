@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User, Auction, Bid
+from .models import User, Auction, Bid, Comment
 
 def index(request):
 
@@ -82,29 +82,71 @@ def new_listing(request):
 
     return render(request, "auctions/new_listing.html")
 
+# Handle individual item page
 def item(request, name, item_id):
-    item = verify_url(request, name, item_id)
-    if item:
-        user_id = request.user.id
 
-        if request.method == 'POST':
-            user = User.objects.get(pk=user_id)
+    invalid_bid = False
+
+    def verify_url(request, name, item_id):
+
+        item = Auction.objects.filter(id=item_id)
+        if item:
+            item_name = '-'.join(item[0].title.split())
+            if item_name == name:
+                return item[0]
+        return False
+
+    def verify_post(request, item):
+
+        if request.POST['q'] == 'bid':
+            verify_bid(request, item)
+
+        elif request.POST['q'] == 'finished':
+            item.winner = Auction.objects.get(pk=item.id).bids.order_by('bid_value').last().user
+            item.save()
+
+        elif request.POST['q'] == 'remove':
+            user = User.objects.get(pk=request.user.id)
+
             if request.POST['remove']:
                 item.users_watchlist.remove(user)
             else:
                 item.users_watchlist.add(user)
+        
+        elif request.POST['q'] == 'comment':
+            user = User.objects.get(pk=request.user.id)
+            new_comment = Comment(user=user, text=request.POST['comment'])
+            new_comment.save()
+            item.comments.add(new_comment)
+
+    def verify_bid(request, item):
+        nonlocal invalid_bid
+
+        if int(request.POST['value']) > int(item.last_bid):
+
+            item.last_bid = int(request.POST['value'])
+            item.save()
+
+            user = User.objects.get(pk=request.user.id)
+            new_bid = Bid(user=user, bid_value=int(request.POST['value']), item=item)
+            new_bid.save()
+
+            invalid_bid = False
+
+        else:
+            invalid_bid = True
+
+    item = verify_url(request, name, item_id)
+
+    if item:
+        if request.method == 'POST':
+            verify_post(request, item)
 
         return render(request, "auctions/item.html", {
             "item": item,
-            "watchlist": item.users_watchlist.filter(pk=user_id)
+            "watchlist": item.users_watchlist.filter(pk=request.user.id),
+            "invalid": invalid_bid,
+            "comments": item.comments.all()
         })
   
     return HttpResponse("There's no such item.")
-
-def verify_url(request, name, item_id):
-    item = Auction.objects.filter(id=item_id)
-    if item:
-        item_name = '-'.join(item[0].title.split())
-        if item_name == name:
-            return item[0]
-    return False
