@@ -9,7 +9,7 @@ class Auction(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField(blank=True)
     url = models.URLField(null=True)
-    category = models.CharField(max_length=20, null=True)
+    category = models.ManyToManyField('Category', related_name="items")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="items")
     last_bid = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     users_watchlist = models.ManyToManyField(User, related_name="watchlist")
