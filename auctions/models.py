@@ -34,3 +34,9 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"User: {self.user.username}, Date: {self.date}"
+
+class Category(models.Model):
+    category = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f"Category: {self.category}"
