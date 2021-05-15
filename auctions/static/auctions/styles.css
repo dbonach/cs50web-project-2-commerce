@@ -87,6 +87,15 @@ textarea:focus {
   max-height: 300px;
 }
 
+.resize-image-box {
+  width: 150px;
+  height: 150px;
+}
+.resize-image-box img {
+  max-width: 150px;
+  max-height: 150px;
+}
+
 .text {
   padding-left: 10px;
   min-width: calc(800px - 300px);
@@ -95,7 +104,6 @@ textarea:focus {
   font-weight: 500;
   font-size: 1.25rem;
   color: #44f;
-  margin-bottom: 1.5rem;
 }
 .text .bid {
   font-size: 1rem;
@@ -109,6 +117,8 @@ textarea:focus {
 }
 .text .description {
   font-size: 1rem;
+  word-break: break-word;
+  margin-top: 0.25rem;
 }
 
 .no-border {
@@ -129,11 +139,16 @@ textarea:focus {
 }
 .text .dark-text {
   color: #333;
+  margin-bottom: 1.5rem;
 }
 .text .btn {
   padding: 2px 6px;
   font-size: 0.75rem;
   font-weight: 600;
+}
+.text .monospace {
+  font-family: monospace;
+  font-weight: 100;
 }
 
 .wrapper-info {

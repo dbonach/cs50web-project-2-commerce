@@ -93,6 +93,15 @@ textarea:focus {
   }
 }
 
+.resize-image-box {
+  width: $photo-box/2;
+  height: $photo-box/2;
+  img {
+    max-width: $photo-box/2;
+    max-height: $photo-box/2;
+  }
+}
+
 .text {
   padding-left: 10px;
   min-width: calc(800px - #{$photo-box});
@@ -100,7 +109,6 @@ textarea:focus {
     font-weight: 500;
     font-size: 1.25rem;
     color: #44f;
-    margin-bottom: 1.5rem;
   }
   .bid {
     font-size: 1rem;
@@ -115,7 +123,8 @@ textarea:focus {
   }
   .description {
     font-size: 1rem;
-
+    word-break: break-word;
+    margin-top: 0.25rem;
   }
 }
 
@@ -138,12 +147,18 @@ textarea:focus {
 
   .dark-text {
     color:#333;
+    margin-bottom: 1.5rem;
   }
 
   .btn {
     padding: 2px 6px;
     font-size: 0.75rem;
     font-weight: 600;
+  }
+
+  .monospace {
+    font-family: monospace;
+    font-weight: 100;
   }
 }
 

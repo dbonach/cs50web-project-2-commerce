@@ -82,6 +82,26 @@ def new_listing(request):
 
     return render(request, "auctions/new_listing.html")
 
+def watchlist(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("index"))
+
+    user = User.objects.get(pk=request.user.id)
+    watchlist = user.watchlist.all()
+
+    return render(request, "auctions/watchlist.html", {
+        "watchlist": watchlist
+    })
+
+def categories(request, category=None):
+    print(category)
+    return render(request, "auctions/categories.html")
+    # entry = Auction.objects.order_by('id').reverse()
+    # return render(request, "auctions/index.html", {
+    #     "entry": entry,
+    #     "nome": "teste"
+    # })
+
 # Handle individual item page
 def item(request, name, item_id):
 
