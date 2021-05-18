@@ -1,5 +1,5 @@
 {% extends "auctions/layout.html" %}
-{% block title %}Auctions - New Listing{% endblock %}
+{% block title %}{{ item.title }}{% endblock %}
 
 {% block body %}
 <div class="wrapper-listing">
@@ -61,7 +61,7 @@
       <form action="" method="POST">
         {% csrf_token %}
         <input type="text" name="q" value="finished" hidden>
-        <button type="submit" class="btn btn-success mt-2">Finish Auction</button>
+        <button type="submit" class="btn btn-success mt-5">Finish Auction</button>
       </form>
       {% endif %}
 
@@ -84,7 +84,7 @@
       {% if user.is_authenticated and not item.winner %}
       <form action="" method="POST">
         {% csrf_token %}
-        <textarea name="comment" id="" rows="3" placeholder="Add a comment" id="txt"></textarea>
+        <textarea name="comment" rows="3" placeholder="Add a comment"></textarea>
         <input type="submit" name="q" value="comment">
       </form>
       {% endif %}

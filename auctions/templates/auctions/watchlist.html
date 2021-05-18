@@ -1,5 +1,5 @@
 {% extends "auctions/layout.html" %}
-{% block title %}Auctions - New Listing{% endblock %}
+{% block title %}Auctions - Watchlist{% endblock %}
 
 {% block body %}
 <div class="wrapper-listing">
@@ -8,7 +8,7 @@
   <div class="listings">
     <a href="{% url 'item' item.title.split|join:'-' item.id %}">
       <div class="image-box resize-image-box">
-        <img src="{{ item.url }}" alt="" {% if item.winner %} style="filter: grayscale(100%);" {% endif %} />
+        <img src="{{ item.url }}" {% if item.winner %} style="filter: grayscale(100%);" {% endif %} />
       </div>
     </a>
     <div class="text">
@@ -16,7 +16,6 @@
         <div class="title">{{ item.title }}</div>
       </a>
 
-      <!-- <div class="bid">Bid:<span>${{ item.last_bid|floatformat }}</span></div> -->
       <div>
         <div class="bid">
 
@@ -41,7 +40,9 @@
   </div>
   {% endfor %}
   {% else %}
-  <h5>You have no items in your watchlist</h5>
+  <div class="error-message">
+    <h2 class="message">You have no listings in your watchlist :/</h2>
+  </div>
   {% endif %}
 </div>
 {% endblock %}

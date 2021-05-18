@@ -2,16 +2,15 @@
 {% block title %}Auctions - New Listing{% endblock %}
 
 {% block body %}
-<form method="post">
-  {% csrf_token %}
-  <div class="wrapper">
-    <div class="flex-container">
-      <div class="heading">
-        <h3>Create you new listing</h3>
-      </div>
-      <input type="text" name="title" placeholder="Title" required>
+<div class="wrapper">
+  <div class="flex-container">
+    <div class="heading">
+      <h3>Create you new listing</h3>
+    </div>
+    <form method="post" id="new-listing">
+      {% csrf_token %}
+      <input type="text" name="title" placeholder="Title" required autofocus>
       <textarea name="description" id="" cols="30" rows="10" placeholder="Description" required></textarea>
-      <label for="category"></label>
       <select name="category">
         <option value="others">Select a category</option>
         <option value="auto-parts">Auto &amp; Parts</option>
@@ -26,8 +25,9 @@
       </select>
       <input type="number" name="bid" placeholder="Start Bid" required>
       <input type="text" name="image-url" placeholder="Image URL">
-      <input type="submit" name="" id="" value="save">
-    </div>
+      <input type="submit" value="save">
+    </form>
   </div>
-</form>
+</div>
+
 {% endblock %}

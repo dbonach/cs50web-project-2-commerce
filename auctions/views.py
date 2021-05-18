@@ -7,11 +7,9 @@ from django.urls import reverse
 from .models import User, Auction, Bid, Comment, Category
 
 def index(request):
-
     entry = Auction.objects.order_by('id').reverse()
     return render(request, "auctions/index.html", {
-        "entry": entry,
-        "nome": "teste"
+        "entry": entry
     })
 
 def login_view(request):
@@ -69,12 +67,13 @@ def new_listing(request):
     if request.method == "POST":
         title = request.POST["title"]
         description = request.POST["description"]
-        category = Category.objects.get(category=request.POST["category"])
+        category_object = Category.objects.get(category=request.POST["category"])
         start_bid = request.POST["bid"]
         image_url = request.POST["image-url"]
         user = User.objects.get(pk=request.user.id)
-        new_auction = Auction(title=title, description=description, category=category, url=image_url, user=user, last_bid=start_bid)
+        new_auction = Auction(title=title, description=description, url=image_url, user=user, last_bid=start_bid)
         new_auction.save()
+        category_object.items.add(new_auction)
         bid = Bid(user=user, bid_value=start_bid, item=new_auction)
         bid.save()
 
@@ -96,10 +95,12 @@ def watchlist(request):
 def categories(request, category=None):
     if not category:
         return render(request, "auctions/categories.html")
-    
+
     else:
-        # order_by was necessary because I the items randomly after create category model
         items_list = Category.objects.get(category=category).items.all().order_by('pk').reverse()
+        # Condition in case every listings has a winner (is finished)
+        # if not items_list.filter(winner=None):
+        #     items_list = False
 
         return render(request, "auctions/category_items.html", {
             "items_list": items_list,
@@ -165,14 +166,15 @@ def item(request, name, item_id):
     if item:
         if request.method == 'POST':
             verify_post(request, item)
-        print(item)
-        print(item.category.first().category)
+        
+        category = item.category.first().category
+        
         return render(request, "auctions/item.html", {
             "item": item,
             "watchlist": item.users_watchlist.filter(pk=request.user.id),
             "invalid": invalid_bid,
             "comments": item.comments.all(),
-            "category": item.category.first().category
+            "category": ' & '.join(category.split('-')).capitalize()
         })
   
-    return HttpResponse("There's no such item.")
+    return render(request, "auctions/error.html")
