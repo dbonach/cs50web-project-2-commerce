@@ -20,8 +20,9 @@
         {% endif %}
 
       </div>
-
-      {% if user.is_authenticated and item.winner.id == user.id %}
+      {% if user.is_authenticated and item.winner.id == item.user.id %}
+      <h4 class="font-weight-bold mt-2 purple">Nobody bid your item!</h4>
+      {% elif user.is_authenticated and item.winner.id == user.id %}
       <h4 class="font-weight-bold mt-2 purple">You won this item!</h4>
       {% elif item.winner %}
       <h4 class="font-weight-bold mt-2 purple">Sold Item!</h4>

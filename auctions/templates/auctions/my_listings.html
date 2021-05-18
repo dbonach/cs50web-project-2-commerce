@@ -1,0 +1,50 @@
+{% extends "auctions/layout.html" %}
+{% block title %}My listings{% endblock %}
+
+{% block body %}
+<div class="wrapper-listing">
+  {% if items_list %}
+  {% for item in items_list %}
+  <div class="listings">
+    <a href="{% url 'item' item.title.split|join:'-' item.id %}">
+      <div class="image-box resize-image-box">
+        <img src="{{ item.url }}" {% if item.winner %} style="filter: grayscale(100%);" {% endif %} />
+      </div>
+    </a>
+    <div class="text">
+      <a href="{% url 'item' item.title.split|join:'-' item.id %}">
+        <div class="title">{{ item.title }}</div>
+      </a>
+
+      <div>
+        <div class="bid">
+
+          {% if item.winner %}
+          <s>Bid:<span>${{ item.last_bid|floatformat }}</span></s>
+          {% else %}
+          Bid:<span>${{ item.last_bid|floatformat }}</span>
+          {% endif %}
+
+        </div>
+
+        {% if user.is_authenticated and item.winner.id == item.user.id %}
+        <h5 class="font-weight-bold mt-2 purple">Nobody bid your item!</h5>
+        {% elif user.is_authenticated and item.winner.id == user.id %}
+        <h5 class="font-weight-bold mt-1 purple">You won this item!</h5>
+        {% elif item.winner %}
+        <h5 class="font-weight-bold mt-2 purple">Sold Item!</h5>
+        {% endif %}
+      </div>
+
+      <div class="description">{{ item.description }}</div>
+    </div>
+
+  </div>
+  {% endfor %}
+  {% else %}
+  <div class="error-message">
+    <h2 class="message">You have no listings yet :/</h2>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

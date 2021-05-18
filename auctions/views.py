@@ -7,7 +7,7 @@ from django.urls import reverse
 from .models import User, Auction, Bid, Comment, Category
 
 def index(request):
-    entry = Auction.objects.order_by('id').reverse()
+    entry = Auction.objects.filter(winner=None).order_by('id').reverse()
     return render(request, "auctions/index.html", {
         "entry": entry
     })
@@ -86,7 +86,7 @@ def watchlist(request):
         return HttpResponseRedirect(reverse("index"))
 
     user = User.objects.get(pk=request.user.id)
-    watchlist = user.watchlist.all()
+    watchlist = user.watchlist.all().order_by('id').reverse()
 
     return render(request, "auctions/watchlist.html", {
         "watchlist": watchlist
@@ -97,15 +97,21 @@ def categories(request, category=None):
         return render(request, "auctions/categories.html")
 
     else:
-        items_list = Category.objects.get(category=category).items.all().order_by('pk').reverse()
-        # Condition in case every listings has a winner (is finished)
-        # if not items_list.filter(winner=None):
-        #     items_list = False
+        # "filter(winner=None)", filters only active listings
+        items_list = Category.objects.get(category=category).items.filter(winner=None).order_by('pk').reverse()
 
         return render(request, "auctions/category_items.html", {
             "items_list": items_list,
             "category": ' & '.join(category.split('-')).capitalize()
         })
+
+def my_listings(request):
+    user = User.objects.get(pk=request.user.id)
+    entry = Auction.objects.all().filter(user=user).order_by('id').reverse()
+    print(entry)
+    return render(request, "auctions/my_listings.html", {
+        "items_list": entry
+    })
 
 # Handle individual item page
 def item(request, name, item_id):
@@ -127,7 +133,9 @@ def item(request, name, item_id):
             verify_bid(request, item)
 
         elif request.POST['q'] == 'finished':
-            item.winner = Auction.objects.get(pk=item.id).bids.order_by('bid_value').last().user
+            item.winner = Auction.objects.get(pk=item.id).bids.order_by('bid_value').last()
+            if not item.winner:
+                item.winner = User.objects.get(pk=request.user.id)
             item.save()
 
         elif request.POST['q'] == 'remove':
@@ -168,7 +176,7 @@ def item(request, name, item_id):
             verify_post(request, item)
         
         category = item.category.first().category
-        
+
         return render(request, "auctions/item.html", {
             "item": item,
             "watchlist": item.users_watchlist.filter(pk=request.user.id),
