@@ -1,0 +1,40 @@
+{% extends "auctions/layout.html" %}
+{% block title %}{{ category }}{% endblock %}
+
+{% block body %}
+
+<div class="wrapper-listing">
+  <h3 class="heading">Category: {{ category }}</h3>
+
+  {% if not items_list %}
+
+  <div class="error-message">
+    <h2 class="message">There are no listings in this category :/</h2>
+  </div>
+
+  {% else %}
+  {% for item in items_list %}
+  {% if not item.winner %}
+  <div class="listings">
+    <a href="{% url 'item' item.title.split|join:'-' item.id %}">
+      <div class="image-box">
+        <img src="{{ item.url }}" alt="" />
+      </div>
+    </a>
+    <div class="text">
+      <a href="{% url 'item' item.title.split|join:'-' item.id %}">
+        <div class="title">{{ item.title }}</div>
+      </a>
+
+      <div class="bid">Bid:<span>${{ item.last_bid|floatformat }}</span></div>
+      <div class="description">{{ item.description }}</div>
+    </div>
+
+  </div>
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+
+</div>
+
+{% endblock %}

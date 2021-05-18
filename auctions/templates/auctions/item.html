@@ -1,5 +1,5 @@
 {% extends "auctions/layout.html" %}
-{% block title %}Auctions - New Listing{% endblock %}
+{% block title %}{{ item.title }}{% endblock %}
 
 {% block body %}
 <div class="wrapper-listing">
@@ -20,8 +20,9 @@
         {% endif %}
 
       </div>
-
-      {% if user.is_authenticated and item.winner.id == user.id %}
+      {% if user.is_authenticated and item.winner.id == item.user.id %}
+      <h4 class="font-weight-bold mt-2 purple">Nobody bid your item!</h4>
+      {% elif user.is_authenticated and item.winner.id == user.id %}
       <h4 class="font-weight-bold mt-2 purple">You won this item!</h4>
       {% elif item.winner %}
       <h4 class="font-weight-bold mt-2 purple">Sold Item!</h4>
@@ -49,10 +50,10 @@
         <input name="q" value="remove" hidden>
         {% if watchlist %}
         <input name="remove" value="true" hidden>
-        <button type="submit" class="btn btn-dark mt-5">Remove from WatchList</button>
+        <button type="submit" class="btn btn-dark mt-5 monospace">Remove from WatchList</button>
         {% else %}
         <input name="remove" value="" hidden>
-        <button type="submit" class="btn btn-warning mt-5">Add to WatchList</button>
+        <button type="submit" class="btn btn-warning mt-5 monospace">Add to WatchList</button>
         {% endif %}
       </form>
       {% endif %}
@@ -61,13 +62,13 @@
       <form action="" method="POST">
         {% csrf_token %}
         <input type="text" name="q" value="finished" hidden>
-        <button type="submit" class="btn btn-success mt-2">Finish Auction</button>
+        <button type="submit" class="btn btn-success mt-5">Finish Auction</button>
       </form>
       {% endif %}
 
       <div class="details">
         Created by <em>{{ item.user.username}}</em></br>
-        Category: <em>{{ item.category }}</em>
+        Category: <em>{{ category }}</em>
       </div>
 
     </div>
@@ -81,10 +82,10 @@
 
     <div class="wrapper-comments">
       <p id="comment-head">Comments</p>
-      {% if user.is_authenticated %}
+      {% if user.is_authenticated and not item.winner %}
       <form action="" method="POST">
         {% csrf_token %}
-        <textarea name="comment" id="" rows="3" placeholder="Add a comment" id="txt"></textarea>
+        <textarea name="comment" rows="3" placeholder="Add a comment"></textarea>
         <input type="submit" name="q" value="comment">
       </form>
       {% endif %}

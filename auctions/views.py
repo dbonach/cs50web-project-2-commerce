@@ -4,14 +4,12 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User, Auction, Bid, Comment
+from .models import User, Auction, Bid, Comment, Category
 
 def index(request):
-
-    entry = Auction.objects.order_by('id').reverse()
+    entry = Auction.objects.filter(winner=None).order_by('id').reverse()
     return render(request, "auctions/index.html", {
-        "entry": entry,
-        "nome": "teste"
+        "entry": entry
     })
 
 def login_view(request):
@@ -69,18 +67,51 @@ def new_listing(request):
     if request.method == "POST":
         title = request.POST["title"]
         description = request.POST["description"]
-        category = request.POST["category"]
+        category_object = Category.objects.get(category=request.POST["category"])
         start_bid = request.POST["bid"]
         image_url = request.POST["image-url"]
-        user = User.objects.first()
-        new_auction = Auction(title=title, description=description, category=category, url=image_url, user=user, last_bid=start_bid)
+        user = User.objects.get(pk=request.user.id)
+        new_auction = Auction(title=title, description=description, url=image_url, user=user, last_bid=start_bid)
         new_auction.save()
+        category_object.items.add(new_auction)
         bid = Bid(user=user, bid_value=start_bid, item=new_auction)
         bid.save()
 
         return HttpResponseRedirect(reverse("index")) 
 
     return render(request, "auctions/new_listing.html")
+
+def watchlist(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("index"))
+
+    user = User.objects.get(pk=request.user.id)
+    watchlist = user.watchlist.all().order_by('id').reverse()
+
+    return render(request, "auctions/watchlist.html", {
+        "watchlist": watchlist
+    })
+
+def categories(request, category=None):
+    if not category:
+        return render(request, "auctions/categories.html")
+
+    else:
+        # "filter(winner=None)", filters only active listings
+        items_list = Category.objects.get(category=category).items.filter(winner=None).order_by('pk').reverse()
+
+        return render(request, "auctions/category_items.html", {
+            "items_list": items_list,
+            "category": ' & '.join(category.split('-')).capitalize()
+        })
+
+def my_listings(request):
+    user = User.objects.get(pk=request.user.id)
+    entry = Auction.objects.all().filter(user=user).order_by('id').reverse()
+    print(entry)
+    return render(request, "auctions/my_listings.html", {
+        "items_list": entry
+    })
 
 # Handle individual item page
 def item(request, name, item_id):
@@ -102,7 +133,9 @@ def item(request, name, item_id):
             verify_bid(request, item)
 
         elif request.POST['q'] == 'finished':
-            item.winner = Auction.objects.get(pk=item.id).bids.order_by('bid_value').last().user
+            item.winner = Auction.objects.get(pk=item.id).bids.order_by('bid_value').last()
+            if not item.winner:
+                item.winner = User.objects.get(pk=request.user.id)
             item.save()
 
         elif request.POST['q'] == 'remove':
@@ -141,12 +174,15 @@ def item(request, name, item_id):
     if item:
         if request.method == 'POST':
             verify_post(request, item)
+        
+        category = item.category.first().category
 
         return render(request, "auctions/item.html", {
             "item": item,
             "watchlist": item.users_watchlist.filter(pk=request.user.id),
             "invalid": invalid_bid,
-            "comments": item.comments.all()
+            "comments": item.comments.all(),
+            "category": ' & '.join(category.split('-')).capitalize()
         })
   
-    return HttpResponse("There's no such item.")
+    return render(request, "auctions/error.html")

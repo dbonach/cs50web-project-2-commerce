@@ -4,8 +4,8 @@
 
 <div class="wrapper-listing">
     <h3 class="heading">Active Listings</h3>
+
     {% for item in entry %}
-    {% if not item.winner %}
     <div class="listings">
         <a href="{% url 'item' item.title.split|join:'-' item.id %}">
             <div class="image-box">
@@ -17,12 +17,11 @@
                 <div class="title">{{ item.title }}</div>
             </a>
 
-            <div class="bid">Bid: <span>${{ item.last_bid|floatformat }}</span></div>
+            <div class="bid">Bid:<span>${{ item.last_bid|floatformat }}</span></div>
             <div class="description">{{ item.description }}</div>
         </div>
 
     </div>
-    {% endif %}
     {% endfor %}
 </div>
 
