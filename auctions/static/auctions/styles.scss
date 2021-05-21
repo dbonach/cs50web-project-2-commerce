@@ -1,8 +1,9 @@
+@use 'sass:math';
 $base-color: #c6538c;
 $photo-box: 300px;
 
 body {
-  padding: 10px;
+  padding: 0;
 }
 
 // CSS for new_listing.html
@@ -99,11 +100,11 @@ textarea:focus {
 }
 
 .resize-image-box {
-  width: $photo-box/2;
-  height: $photo-box/2;
+  width: math.div($photo-box, 2);
+  height: math.div($photo-box, 2);
   img {
-    max-width: $photo-box/2;
-    max-height: $photo-box/2;
+    max-width: math.div($photo-box, 2);
+    max-height: math.div($photo-box, 2);
   }
 }
 
@@ -271,4 +272,50 @@ textarea:focus {
     font-size: 3rem;
     text-shadow: 0px 1px 2px #000;
   }
+}
+
+.background {
+  display: flex;
+  flex-direction: column;
+  background-color: #000;
+}
+.sacramento {
+  font-family: 'Sacramento', cursive;
+  font-size: 4rem;
+  margin: 10px 0 0 12px;
+  color: #fff;
+}
+.group {
+  display: flex;
+  background-color: moccasin;
+}
+.nav {
+  a {
+    color: #000;
+  }
+  a:hover {
+    color: #444;
+  }
+}
+.user {
+  align-self: flex-end;
+  margin-left: auto;
+  line-height: 24px;
+  font-size: 14px;
+  color: #333;
+  justify-self: flex-end;
+  padding-right: 4px;
+}
+hr {
+  margin-top: 0.25rem;
+}
+.form-control:active,
+.form-control:focus,
+.form-control:focus:active {
+  // background-color: #7952b3!important;
+  // border-color: #7952b3;
+  border-color: darkkhaki;
+  box-shadow: 0px 0px 4px 2px rgb(171 114 21 / 25%);
+  // box-shadow: none;
+  color: white;
 }
