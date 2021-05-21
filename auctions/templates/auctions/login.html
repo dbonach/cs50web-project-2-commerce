@@ -1,11 +1,11 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-
+<div class="wrapper">
     <h2>Login</h2>
 
     {% if message %}
-        <div>{{ message }}</div>
+    <div>{{ message }}</div>
     {% endif %}
 
     <form action="{% url 'login' %}" method="post">
@@ -19,6 +19,8 @@
         <input class="btn btn-primary" type="submit" value="Login">
     </form>
 
-    Don't have an account? <a href="{% url 'register' %}">Register here.</a>
+    <p class="mt-5">Don't have an account? <a href="{% url 'register' %}">Register here.</a></p>
+
+</div>
 
 {% endblock %}
