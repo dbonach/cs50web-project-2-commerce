@@ -38,7 +38,7 @@ You can clone the repo and type `python manage.py runserver`, you must have Djan
 
 ### Main page and individual page
 <p>
-<img src="https://user-images.githubusercontent.com/62313672/124426816-f439b480-dd40-11eb-9878-ce11808e011e.gif" width="60%">
+<img src="https://user-images.githubusercontent.com/62313672/124426816-f439b480-dd40-11eb-9878-ce11808e011e.gif" width="80%">
 </p>
 
 <br/>
