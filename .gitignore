@@ -1,6 +1,7 @@
 *.map
 .cache 
 *.py[cod]
+db.sqlite3
 
 *.pyc
 */*/*/__pycache__/
