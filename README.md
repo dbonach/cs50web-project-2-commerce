@@ -28,7 +28,7 @@ You can see all the requirements on [this page](https://cs50.harvard.edu/web/202
 
 ## How to run
 
-You can clone the repo and type `python manage.py runserver`, you must have Django installed to run a Django application. By now I removed the database from the project, but I'll added some fake data in the future, this way it will be easier to user see it working.
+You can clone the repo and type `python manage.py runserver`, you must have Django installed to run a Django application. By now I removed the database from the project, but I'll added some fake data in the future, this way it will be easier to anyone see it working.
 
 <br/>
 
