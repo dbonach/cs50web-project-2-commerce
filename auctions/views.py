@@ -67,15 +67,16 @@ def new_listing(request):
     if request.method == "POST":
         title = request.POST["title"]
         description = request.POST["description"]
-        category_object = Category.objects.get(category=request.POST["category"])
-        start_bid = request.POST["bid"]
+        category = Category.objects.get(name=request.POST["category"])
+        start_value = request.POST["bid"]
         image_url = request.POST["image-url"]
         user = User.objects.get(pk=request.user.id)
-        new_auction = Auction(title=title, description=description, url=image_url, user=user, last_bid=start_bid)
-        new_auction.save()
-        category_object.items.add(new_auction)
-        bid = Bid(user=user, bid_value=start_bid, item=new_auction)
+
+        bid = Bid(user=user, bid_value=start_value)
         bid.save()
+        
+        new_auction = Auction(title=title, description=description, url=image_url, user=user, last_bid=bid, category=category)
+        new_auction.save()
 
         return HttpResponseRedirect(reverse("index")) 
 
@@ -97,8 +98,7 @@ def categories(request, category=None):
         return render(request, "auctions/categories.html")
 
     else:
-        # "filter(winner=None)", filters only active listings
-        items_list = Category.objects.get(category=category).items.filter(winner=None).order_by('pk').reverse()
+        items_list = Category.objects.get(name=category).items.all().filter(winner=None).order_by('pk').reverse()
 
         return render(request, "auctions/category_items.html", {
             "items_list": items_list,
@@ -133,9 +133,8 @@ def item(request, name, item_id):
             verify_bid(request, item)
 
         elif request.POST['q'] == 'finished':
-            item.winner = Auction.objects.get(pk=item.id).bids.order_by('bid_value').last()
-            if not item.winner:
-                item.winner = User.objects.get(pk=request.user.id)
+            item.winner = Auction.objects.get(pk=item.id).last_bid.user
+
             item.save()
 
         elif request.POST['q'] == 'remove':
@@ -155,14 +154,14 @@ def item(request, name, item_id):
     def verify_bid(request, item):
         nonlocal invalid_bid
 
-        if int(request.POST['value']) > int(item.last_bid):
-
-            item.last_bid = int(request.POST['value'])
-            item.save()
+        if int(request.POST['value']) > int(item.last_bid.bid_value):
 
             user = User.objects.get(pk=request.user.id)
-            new_bid = Bid(user=user, bid_value=int(request.POST['value']), item=item)
+            new_bid = Bid(user=user, bid_value=int(request.POST['value']))
             new_bid.save()
+
+            item.last_bid = new_bid
+            item.save()
 
             invalid_bid = False
 
@@ -174,15 +173,38 @@ def item(request, name, item_id):
     if item:
         if request.method == 'POST':
             verify_post(request, item)
-        
-        category = item.category.first().category
 
         return render(request, "auctions/item.html", {
             "item": item,
             "watchlist": item.users_watchlist.filter(pk=request.user.id),
             "invalid": invalid_bid,
             "comments": item.comments.all(),
-            "category": ' & '.join(category.split('-')).capitalize()
+            "category": ' & '.join(item.category.name.split('-')).capitalize()
         })
   
     return render(request, "auctions/error.html")
+
+def setup(request):
+
+    if not bool(Category.objects.all()):
+        new_category = Category(name='others')
+        new_category.save()
+        new_category = Category(name='auto-parts')
+        new_category.save()
+        new_category = Category(name='fashion-clothing')
+        new_category.save()
+        new_category = Category(name='books-movies-music')
+        new_category.save()
+        new_category = Category(name='electronics')
+        new_category.save()
+        new_category = Category(name='collectibles-art')
+        new_category.save()
+        new_category = Category(name='home-garden')
+        new_category.save()
+        new_category = Category(name='sporting-goods')
+        new_category.save()
+        new_category = Category(name='toys-hobbies')
+        new_category.save()
+
+    return HttpResponseRedirect(reverse("index"))
+    

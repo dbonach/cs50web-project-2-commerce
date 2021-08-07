@@ -14,9 +14,9 @@
       <div class="bid">
 
         {% if item.winner %}
-        <s>Bid:<span>${{ item.last_bid|floatformat }}</span></s>
+        <s>Bid:<span>${{ item.last_bid.bid_value|floatformat }}</span></s>
         {% else %}
-        Bid:<span>${{ item.last_bid|floatformat }}</span>
+        Bid:<span>${{ item.last_bid.bid_value|floatformat }}</span>
         {% endif %}
 
       </div>
