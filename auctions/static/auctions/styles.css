@@ -302,6 +302,10 @@ hr {
 .form-control:focus:active {
   border-color: darkkhaki;
   box-shadow: 0px 0px 4px 2px rgba(171, 114, 21, 0.25);
+<<<<<<< HEAD
+=======
+/*   color: white; */
+>>>>>>> 4f7ae8a0b4ecfa7c3e241b804f6c5b4c6dd416ca
 }
 
 /*# sourceMappingURL=styles.css.map */
